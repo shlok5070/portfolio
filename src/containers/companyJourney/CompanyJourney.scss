@@ -1,0 +1,300 @@
+@import "../../_globalColor";
+
+$journeyAccent: #8c43ce;
+$journeyAccentSoft: rgba(140, 67, 206, 0.18);
+$dotTop: 3.6rem; // vertical position of the timeline dots and line
+
+.journey-section {
+  width: 90%;
+  margin: 2rem auto 0;
+  padding: 20px 0 40px;
+}
+
+.journey-heading {
+  font-size: 56px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+}
+
+.journey-subtitle {
+  color: $subTitle;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  margin-top: 0;
+}
+
+.journey-track {
+  position: relative;
+  list-style: none;
+  margin: 2.5rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+
+  // The line that connects the stops
+  &::before {
+    content: "";
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    top: $dotTop;
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(
+      90deg,
+      rgba(140, 67, 206, 0.15),
+      $journeyAccent 55%,
+      $buttonColor
+    );
+  }
+
+  // A glow that travels along the line, from past to present
+  &::after {
+    content: "";
+    position: absolute;
+    top: calc(#{$dotTop} - 3px);
+    left: 8%;
+    width: 90px;
+    height: 10px;
+    border-radius: 5px;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.95),
+      rgba(140, 67, 206, 0) 70%
+    );
+    animation: journey-travel 4.5s ease-in-out infinite;
+  }
+}
+
+.journey-stop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.journey-period {
+  display: inline-block;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: $buttonColor;
+  background: $journeyAccentSoft;
+}
+
+.journey-dot {
+  position: relative;
+  z-index: 1;
+  width: 22px;
+  height: 22px;
+  margin: 1rem 0 1.4rem;
+  border-radius: 50%;
+  background: $lightBackground1;
+  border: 5px solid $journeyAccent;
+  box-shadow: 0 0 0 6px $journeyAccentSoft;
+}
+
+.journey-current .journey-dot {
+  background: $buttonColor;
+  border-color: $buttonColor;
+  animation: journey-pulse 2s ease-out infinite;
+}
+
+.journey-card {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  padding: 1.6rem 1.4rem 1.8rem;
+  border-radius: 16px;
+  background: $lightBackground2;
+  box-shadow: 0 10px 30px -12px $lightBoxShadowDarker;
+  border: 1px solid rgba(140, 67, 206, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 22px 40px -14px rgba(85, 25, 139, 0.45);
+  }
+}
+
+.journey-current .journey-card {
+  border: 2px solid transparent;
+  background: linear-gradient($lightBackground2, $lightBackground2) padding-box,
+    linear-gradient(135deg, $journeyAccent, #dff34f) border-box;
+}
+
+// Logos sit on white in both themes, since they are designed for light backgrounds
+.journey-logo-tile {
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  border-radius: 12px;
+  background: #ffffff;
+
+  img {
+    max-height: 56px;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+}
+
+.journey-card:hover .journey-logo-tile img {
+  transform: scale(1.06);
+}
+
+.journey-role {
+  margin: 1.1rem 0 0.4rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: $titleColor;
+}
+
+.journey-highlight {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: $cardSubtitle;
+}
+
+.journey-now-badge {
+  position: absolute;
+  top: -12px;
+  right: 16px;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: $textColorDark;
+  background: $buttonColor;
+}
+
+// Dark theme
+.journey-dark {
+  .journey-subtitle,
+  .journey-highlight {
+    color: #c9cbd4;
+  }
+  .journey-role {
+    color: $textColorDark;
+  }
+  .journey-period {
+    color: #d7b8f3;
+    background: rgba(140, 67, 206, 0.3);
+  }
+  .journey-dot {
+    background: $darkBackground;
+  }
+  .journey-current .journey-dot {
+    background: $journeyAccent;
+  }
+  .journey-card {
+    background: #1f2535;
+    border-color: rgba(215, 184, 243, 0.15);
+    box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.6);
+  }
+  .journey-current .journey-card {
+    background: linear-gradient(#1f2535, #1f2535) padding-box,
+      linear-gradient(135deg, $journeyAccent, #dff34f) border-box;
+  }
+}
+
+@keyframes journey-travel {
+  0% {
+    left: 8%;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(92% - 90px);
+    opacity: 0;
+  }
+}
+
+@keyframes journey-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(140, 67, 206, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 18px rgba(140, 67, 206, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey-track::after,
+  .journey-current .journey-dot {
+    animation: none;
+  }
+  .journey-track::after {
+    display: none;
+  }
+}
+
+@media (max-width: 1380px) {
+  .journey-heading {
+    font-size: 40px;
+  }
+}
+
+// Phones and small tablets: stack the stops along a vertical line
+@media (max-width: 768px) {
+  .journey-heading {
+    font-size: 30px;
+    text-align: center;
+  }
+  .journey-subtitle {
+    font-size: 14px;
+    text-align: center;
+  }
+  .journey-track {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding-left: 2.2rem;
+
+    &::before {
+      left: 0.6rem;
+      right: auto;
+      top: 0.5rem;
+      bottom: 0.5rem;
+      width: 4px;
+      height: auto;
+      background: linear-gradient(
+        180deg,
+        rgba(140, 67, 206, 0.15),
+        $journeyAccent 55%,
+        $buttonColor
+      );
+    }
+    &::after {
+      display: none;
+    }
+  }
+  .journey-stop {
+    position: relative;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .journey-dot {
+    position: absolute;
+    left: -2.2rem;
+    top: 0.2rem;
+    margin: 0;
+  }
+  .journey-period {
+    margin-bottom: 0.8rem;
+  }
+  .journey-card {
+    max-width: none;
+  }
+}
