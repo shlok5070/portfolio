@@ -46,6 +46,10 @@
   font-size: 70px;
   line-height: 1.1;
   color: $textColor !important;
+
+  &.dark-mode {
+    color: $textColorDark !important;
+  }
 }
 
 .greeting-text-p {
